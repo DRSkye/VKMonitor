@@ -44,5 +44,11 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VKMonitor\VKMonitor.csproj">
+      <Project>{1853392c-5779-466d-a03b-28f0d8490bed}</Project>
+      <Name>VKMonitor</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

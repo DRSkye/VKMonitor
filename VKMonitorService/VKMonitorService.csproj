@@ -49,7 +49,9 @@
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,12 +72,22 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VKMonitorServiceInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="VKMonitorServiceInstaller.Designer.cs">
+      <DependentUpon>VKMonitorServiceInstaller.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\VKLogger\VKLogger.csproj">
+      <Project>{adab394f-b92f-4fc0-a119-fbc4367e1a37}</Project>
+      <Name>VKLogger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VKMonitor\VKMonitor.csproj">
       <Project>{1853392c-5779-466d-a03b-28f0d8490bed}</Project>
       <Name>VKMonitor</Name>

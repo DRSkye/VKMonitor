@@ -69,6 +69,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\VKLogger\VKLogger.csproj">
+      <Project>{adab394f-b92f-4fc0-a119-fbc4367e1a37}</Project>
+      <Name>VKLogger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VKMonitor\VKMonitor.csproj">
       <Project>{1853392c-5779-466d-a03b-28f0d8490bed}</Project>
       <Name>VKMonitor</Name>

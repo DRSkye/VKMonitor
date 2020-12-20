@@ -21,3 +21,5 @@ C:\Users\Ermol\source\repos\VKMonitor\Test\obj\Debug\Test.csproj.CoreCompileInpu
 C:\Users\Ermol\source\repos\VKMonitor\Test\obj\Debug\Test.csproj.CopyComplete
 C:\Users\Ermol\source\repos\VKMonitor\Test\obj\Debug\Test.exe
 C:\Users\Ermol\source\repos\VKMonitor\Test\obj\Debug\Test.pdb
+C:\Users\Ermol\source\repos\VKMonitor\Test\bin\Debug\VKLogger.dll
+C:\Users\Ermol\source\repos\VKMonitor\Test\bin\Debug\VKLogger.pdb

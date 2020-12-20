@@ -5,20 +5,18 @@ using VkNet;
 using VkNet.Enums.Filters;
 using VkNet.Model;
 using User = VKMonitor.Model.User;
-using System.Linq;
-using VkNet.Model.RequestParams;
 
 namespace VKMonitor.Loaders
 {
-    public class VKLoader
+    public static class VKLoader
     {
-        private VkApi _api;
+        private static VkApi _api;
 
         /// <summary>
         /// Авторизация
         /// </summary>
         /// <returns>Возвращает true, если успешно</returns>
-        public bool Authorize()
+        public static bool Authorize()
         {
             try
             {
@@ -46,25 +44,22 @@ namespace VKMonitor.Loaders
             }
         }
 
-        public User GetUser(long id)
+        private static User GetUser(long id)
         {
             var user = _api.Users.Get(new List<long> {id}, ProfileFields.All).FirstOrDefault();
-
             var newUser = new User(user);
-
 
             return newUser;
         }
 
-        public List<User> GetUsers(List<long> list)
+        public static List<User> GetUsers(List<long> list)
         {
-            var users = _api.Users.Get(list, ProfileFields.All);
-            var newUsers = users.AsParallel().Select(x => new User(x)).ToList();
+            var users = list.AsParallel().Select(GetUser).ToList();
 
-            return newUsers;
+            return users;
         }
 
-        public string GetUserName(long id)
+        public static string GetUserName(long id)
         {
             var name = _api.Users.Get(new List<long> {id}, ProfileFields.ScreenName).FirstOrDefault().ScreenName;
             return name;

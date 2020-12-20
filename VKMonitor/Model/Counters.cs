@@ -26,6 +26,10 @@
 
         public int? Pages { get; set; }
 
+        public int? Gifts { get; set; }
+
+        public int? UserPhotos { get; set; }
+
         public Counters(VkNet.Model.Counters counters)
         {
             if (counters == null)
@@ -41,8 +45,10 @@
             OnlineFriends = counters.OnlineFriends;
             MutualFriends = counters.MutualFriends;
             UserVideos = counters.UserVideos;
+            UserPhotos = counters.UserPhotos;
             Followers = counters.Followers;
             Pages = counters.Pages;
+            Gifts = counters.Gifts;
         }
     }
 }

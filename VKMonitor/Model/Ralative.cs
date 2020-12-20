@@ -9,6 +9,28 @@
     {
         public RelativeType Type { get; set; }
 
+        public string TypeStr
+        {
+            get
+            {
+                switch (Type)
+                {
+                    case RelativeType.Child:
+                        return "Сын/Дочь";
+                    case RelativeType.Sibling:
+                        return "Брат/Сестра";
+                    case RelativeType.Parent:
+                        return "Отец/Мать";
+                    case RelativeType.Grandparent:
+                        return "Дедушка/Бабушка";
+                    case RelativeType.Grandchild:
+                        return "Внук/Внучка";
+                    default:
+                        return string.Empty;
+                }
+            }
+        }
+
         public long? Id { get; set; }
 
         public string Name { get; set; }

@@ -94,7 +94,28 @@ namespace VKMonitor.Model
         /// <summary>
         /// Дата рождения
         /// </summary>
-        public DateTime? BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
+
+        /// <summary>
+        /// День Рождения
+        /// </summary>
+        public string BirthDateStr
+        {
+            get
+            {
+                switch (BirthDateVisibility)
+                {
+                    case BirthDateVisibility.Invisible:
+                        return $@"День рождения: скрыт";
+                    case BirthDateVisibility.DateAndMonth:
+                        return $@"День рождения: {BirthDate.Day}.{BirthDate.Month}";
+                    case BirthDateVisibility.Full:
+                        return $@"День рождения: {BirthDate.ToShortDateString()}";
+                }
+
+                return string.Empty;
+            }
+        }
 
         /// <summary>
         /// Тип видимости даты рождения
@@ -237,6 +258,28 @@ namespace VKMonitor.Model
         public FriendStatus FriendStatus { get; set; }
 
         /// <summary>
+        /// Статус друга в виде строки
+        /// </summary>
+        public string FriendStatusStr
+        {
+            get
+            {
+                switch (FriendStatus)
+                {
+                    case FriendStatus.Friend:
+                        return "Друзья";
+                    case FriendStatus.InputRequest:
+                        return "Входящий запрос в друзья";
+                    case FriendStatus.OutputRequest:
+                        return "Исходящий запрос в друзья";
+                    case FriendStatus.NotFriend:
+                    default:
+                        return "Не друзья";
+                }
+            }
+        }
+
+        /// <summary>
         /// Указан ли мобильный телефон
         /// </summary>
         public bool HasMobile { get; set; }
@@ -291,6 +334,35 @@ namespace VKMonitor.Model
         /// </summary>
         public RelationType Relation { get; set; }
 
+        public string RelationStr
+        {
+            get
+            {
+                switch (Relation)
+                {
+                    case RelationType.NotMarried:
+                        return "Не женат/Не замужем";
+                    case RelationType.Amorous:
+                        return "Влюблён/Влюблена";
+                    case RelationType.HasFriend:
+                        return "Встречаюсь";
+                    case RelationType.CivilMarriage:
+                        return "В гражданском браке";
+                    case RelationType.ItsComplex:
+                        return "Всё сложно";
+                    case RelationType.InActiveSearch:
+                        return "В активном поиске";
+                    case RelationType.Married:
+                        return "Женат/Замужем";
+                    case RelationType.Engaged:
+                        return "Помолвлен/Помолвлена";
+                    case RelationType.Unknown:
+                    default:
+                        return "Неизвестно";
+                }
+            }
+        }
+
         /// <summary>
         /// Партнёр
         /// </summary>
@@ -300,6 +372,23 @@ namespace VKMonitor.Model
         /// Пол
         /// </summary>
         public Sex Sex { get; set; }
+
+        public string SexStr
+        {
+            get
+            {
+                switch (Sex)
+                {
+                    case Sex.Male:
+                        return "Мужской";
+                    case Sex.Female:
+                        return "Женский";
+                    case Sex.Unknown:
+                    default:
+                        return "Не указано";
+                }
+            }
+        }
 
         /// <summary>
         /// Сайт
@@ -320,6 +409,11 @@ namespace VKMonitor.Model
         /// Список групп
         /// </summary>
         public List<Group> Groups { get; } = new List<Group>();
+
+        /// <summary>
+        /// Школы
+        /// </summary>
+        public List<School> Schools { get; } = new List<School>();
 
         /// <summary>
         /// Список друзей
@@ -344,9 +438,11 @@ namespace VKMonitor.Model
                 BanInfo = user.Deactivated.ToString();
             else
             {
-                IsClosed = user.IsClosed.HasValue ? user.IsClosed.Value : true;
-
                 IsBlackListed = user.Blacklisted;
+                if (IsBlackListed)
+                    return;
+
+                IsClosed = user.IsClosed.HasValue ? user.IsClosed.Value : true;
 
                 if (IsClosed)
                     CanAccessClosed = user.CanAccessClosed.HasValue ? user.CanAccessClosed.Value : false;
@@ -362,7 +458,7 @@ namespace VKMonitor.Model
                     {
                         case BirthdayVisibility.Invisible:
                             BirthDateVisibility = BirthDateVisibility.Invisible;
-                            BirthDate = null;
+                            BirthDate = DateTime.MinValue;
                             break;
                         case BirthdayVisibility.Full:
                             BirthDateVisibility = BirthDateVisibility.Full;
@@ -476,7 +572,7 @@ namespace VKMonitor.Model
                 user.Relatives.CopyTo(rel, 0);
                 foreach (var relative in rel)
                 {
-                    Relatives.Add(new Relative(relative)); //Доработать родственников
+                    Relatives.Add(new Relative(relative)); //Доработать родственников, родство не соответсвует названию
                 }
 
                 switch (user.Relation) //Доработать получение партнёра
