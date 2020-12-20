@@ -1,7 +1,6 @@
 ﻿using System;
-using VKMonitor;
+using System.Collections.Generic;
 using VKMonitor.Loaders;
-using VKMonitor.Model;
 
 namespace Test
 {
@@ -22,6 +21,7 @@ namespace Test
                 Console.WriteLine($@"Успешная авторизация");
             }
 
+            var user = loader.GetUsers(new List<long>{ 76333002, 200353149 });
         }
     }
 }

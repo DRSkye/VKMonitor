@@ -14,6 +14,9 @@
 
         public Connections(VkNet.Model.Connections connections)
         {
+            if (connections == null)
+                return;
+
             FacebookId = connections.Facebook;
             FacebookName = connections.FacebookName;
             Instagram = connections.Instagram;

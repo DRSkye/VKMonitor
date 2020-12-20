@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VkNet;
 using VkNet.Enums.Filters;
 using VkNet.Model;
-using VKMonitor.Model;
 using User = VKMonitor.Model.User;
+using System.Linq;
+using VkNet.Model.RequestParams;
 
 namespace VKMonitor.Loaders
 {
@@ -46,11 +46,28 @@ namespace VKMonitor.Loaders
             }
         }
 
-        public Model.User GetUser(long id)
+        public User GetUser(long id)
         {
-            var user = _api.Users.Get(new List<long>() {id}, ProfileFields.All).FirstOrDefault();
+            var user = _api.Users.Get(new List<long> {id}, ProfileFields.All).FirstOrDefault();
 
-            User newUser = new User(user);
+            var newUser = new User(user);
+
+
+            return newUser;
+        }
+
+        public List<User> GetUsers(List<long> list)
+        {
+            var users = _api.Users.Get(list, ProfileFields.All);
+            var newUsers = users.AsParallel().Select(x => new User(x)).ToList();
+
+            return newUsers;
+        }
+
+        public string GetUserName(long id)
+        {
+            var name = _api.Users.Get(new List<long> {id}, ProfileFields.ScreenName).FirstOrDefault().ScreenName;
+            return name;
         }
     }
 }

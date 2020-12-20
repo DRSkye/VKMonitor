@@ -28,6 +28,9 @@
 
         public Counters(VkNet.Model.Counters counters)
         {
+            if (counters == null)
+                return;
+
             Albums = counters.Albums;
             Videos = counters.Videos;
             Audios = counters.Audios;

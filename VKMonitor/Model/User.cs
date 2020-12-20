@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using VkNet.Enums;
 using VkNet.Model;
 using System.Linq;
@@ -16,8 +17,20 @@ namespace VKMonitor.Model
         NotFriend, OutputRequest, InputRequest, Friend 
     }
 
+    public enum RelationType
+    {
+        Unknown, NotMarried, HasFriend, Engaged, Married, ItsComplex, InActiveSearch, Amorous, CivilMarriage
+    }
+
+    public enum Sex
+    {
+        Unknown, Female, Male
+    }
+
     public class User
     {
+        #region Properties
+
         /// <summary>
         /// Идентификатор
         /// </summary>
@@ -42,6 +55,11 @@ namespace VKMonitor.Model
         /// Фамилия
         /// </summary>
         public string LastName { get; set; }
+
+        /// <summary>
+        /// Ник (отчетсво)
+        /// </summary>
+        public string Nickname { get; set; }
 
         /// <summary>
         /// Забанен ли пользователь
@@ -122,6 +140,26 @@ namespace VKMonitor.Model
         /// Интересы
         /// </summary>
         public string Interests { get; set; }
+
+        /// <summary>
+        /// Фильмы
+        /// </summary>
+        public string Movies { get; set; }
+
+        /// <summary>
+        /// Музыка
+        /// </summary>
+        public string Music { get; set; }
+
+        /// <summary>
+        /// Цитаты
+        /// </summary>
+        public string Quotes { get; set; }
+
+        /// <summary>
+        /// Телешоу
+        /// </summary>
+        public string TV { get; set; }
 
         /// <summary>
         /// Заблокировал ли пользователь меня
@@ -209,12 +247,92 @@ namespace VKMonitor.Model
         public Contacts Contacts { get; set; }
 
         /// <summary>
+        /// Находится ли пользователь в закладках
+        /// </summary>
+        public bool IsFavourite { get; set; }
+
+        /// <summary>
+        /// Находится ли пользователь в друзьях
+        /// </summary>
+        public bool IsFriend { get; set; }
+
+        /// <summary>
+        /// Скрыт ли пользователь из ленты новостей
+        /// </summary>
+        public bool IsHiddenFromFeed { get; set; }
+
+        /// <summary>
+        /// Последний раз, когда был в сети
+        /// </summary>
+        public LastSeen LastSeen { get; set; }
+
+        /// <summary>
+        /// Девичья фамилия
+        /// </summary>
+        public string MaidenName { get; set; }
+
+        /// <summary>
+        /// Находится ли пользователь онлайн
+        /// </summary>
+        public bool Online { get; set; }
+
+        /// <summary>
+        /// Находится ли пользователь онлайн с телефона
+        /// </summary>
+        public bool OnlineMobile { get; set; }
+
+        /// <summary>
+        /// Находится ли пользователь онлайн с телефона через приложение
+        /// </summary>
+        public long? OnlineApp { get; set; }
+
+        /// <summary>
+        /// Семейное положение
+        /// </summary>
+        public RelationType Relation { get; set; }
+
+        /// <summary>
+        /// Партнёр
+        /// </summary>
+        public User RelationPartner { get; set; }
+
+        /// <summary>
+        /// Пол
+        /// </summary>
+        public Sex Sex { get; set; }
+
+        /// <summary>
+        /// Сайт
+        /// </summary>
+        public string Site { get; set; }
+
+        /// <summary>
+        /// Статус
+        /// </summary>
+        public string Status { get; set; }
+
+        /// <summary>
+        /// Список родственников
+        /// </summary>
+        public List<Relative> Relatives { get; } = new List<Relative>();
+
+        /// <summary>
         /// Список групп
         /// </summary>
         public List<Group> Groups { get; } = new List<Group>();
 
+        /// <summary>
+        /// Список друзей
+        /// </summary>
+        public List<long> Friends { get; } = new List<long>();
+
+        #endregion
+
         public User(VkNet.Model.User user)
         {
+            if (user == null)
+                return;
+
             Id = user.Id;
             ScreenName = user.ScreenName;
             Name = user.FirstName;
@@ -226,36 +344,38 @@ namespace VKMonitor.Model
                 BanInfo = user.Deactivated.ToString();
             else
             {
-                IsClosed = user.IsClosed.Value;
+                IsClosed = user.IsClosed.HasValue ? user.IsClosed.Value : true;
 
                 IsBlackListed = user.Blacklisted;
 
                 if (IsClosed)
-                    CanAccessClosed = user.CanAccessClosed.Value;
+                    CanAccessClosed = user.CanAccessClosed.HasValue ? user.CanAccessClosed.Value : false;
 
-                HasPhoto = user.HasPhoto.Value;
-                if (HasPhoto)
-                    PhotoId = user.PhotoId;
+                if (IsClosed && !CanAccessClosed)
+                    return;
 
-                switch (user.BirthdayVisibility.Value)
+                PhotoId = user.PhotoId;
+
+                if (user.BirthdayVisibility.HasValue)
                 {
-                    case BirthdayVisibility.Invisible:
-                        BirthDateVisibility = BirthDateVisibility.Invisible;
-                        BirthDate = null;
-                        break;
-                    case BirthdayVisibility.Full:
-                        BirthDateVisibility = BirthDateVisibility.Full;
-                        BirthDate = Convert.ToDateTime(user.BirthDate);
-                        break;
-                    case BirthdayVisibility.OnlyDayAndMonth:
-                        BirthDateVisibility = BirthDateVisibility.DateAndMonth;
-                        var mas = user.BirthDate.Split('.');
-                        BirthDate = new DateTime(0, Convert.ToInt32(mas[1]), Convert.ToInt32(mas[0]));
-                        break;
+                    switch (user.BirthdayVisibility.Value)
+                    {
+                        case BirthdayVisibility.Invisible:
+                            BirthDateVisibility = BirthDateVisibility.Invisible;
+                            BirthDate = null;
+                            break;
+                        case BirthdayVisibility.Full:
+                            BirthDateVisibility = BirthDateVisibility.Full;
+                            BirthDate = Convert.ToDateTime(user.BirthDate);
+                            break;
+                        case BirthdayVisibility.OnlyDayAndMonth:
+                            BirthDateVisibility = BirthDateVisibility.DateAndMonth;
+                            var mas = user.BirthDate.Split('.');
+                            BirthDate = new DateTime(DateTime.MinValue.Year, Convert.ToInt32(mas[1]), Convert.ToInt32(mas[0]));
+                            break;
+                    }
                 }
 
-                
-                
                 City = new City(user.City);
                 HomeCity = user.HomeTown;
                 Country = new Country(user.Country);
@@ -265,6 +385,13 @@ namespace VKMonitor.Model
                 Books = user.Books;
                 Games = user.Games;
                 Interests = user.Interests;
+                Movies = user.Movies;
+                Music = user.Music;
+                Quotes = user.Quotes;
+                TV = user.Tv;
+
+                Site = user.Site;
+                Status = user.Status;
 
                 CanPost = user.CanPost;
                 CanSeeAllPost = user.CanSeeAllPosts;
@@ -279,7 +406,7 @@ namespace VKMonitor.Model
                     Careers.Add(new Career(career));
                 }
 
-                CommonFriendsCount = user.CommonCount.Value;
+                CommonFriendsCount = user.CommonCount.HasValue ? user.CommonCount.Value : 0;
 
                 Connections = new Connections(user.Connections);
 
@@ -307,11 +434,93 @@ namespace VKMonitor.Model
                         break;
                 }
 
-                HasMobile = user.HasMobile.Value;
+                HasMobile = user.HasMobile.HasValue ? user.HasMobile.Value : false;
                 if (HasMobile)
                     Contacts = new Contacts(user.Contacts);
 
+                IsFriend = user.IsFriend.Value;
+                IsFavourite = user.IsFavorite;
+                IsHiddenFromFeed = user.IsHiddenFromFeed;
 
+                LastSeen = new LastSeen(user.LastSeen); //Доработать платформы
+
+                switch (user.Sex)
+                {
+                    case VkNet.Enums.Sex.Deactivated:
+                    case VkNet.Enums.Sex.Unknown:
+                        Sex = Sex.Unknown;
+                        break;
+                    case VkNet.Enums.Sex.Female:
+                        Sex = Sex.Female;
+                        MaidenName = user.MaidenName;
+                        break;
+                    case VkNet.Enums.Sex.Male:
+                        Sex = Sex.Male;
+                        break;
+                }
+
+                Online = user.Online.HasValue ? user.Online.Value : false;
+                if (Online)
+                {
+                    OnlineMobile = user.OnlineMobile.HasValue ? user.OnlineMobile.Value : false;
+                    if (OnlineMobile)
+                        OnlineApp = user.OnlineApp;
+                }
+                else
+                {
+                    OnlineMobile = false;
+                    OnlineApp = null;
+                }
+
+                VkNet.Model.Relative[] rel = new VkNet.Model.Relative[user.Relatives.Count];
+                user.Relatives.CopyTo(rel, 0);
+                foreach (var relative in rel)
+                {
+                    Relatives.Add(new Relative(relative)); //Доработать родственников
+                }
+
+                switch (user.Relation) //Доработать получение партнёра
+                {
+                    case VkNet.Enums.RelationType.Unknown:
+                        Relation = RelationType.Unknown;
+                        break;
+                    case VkNet.Enums.RelationType.NotMarried:
+                        Relation = RelationType.NotMarried;
+                        break;
+                    case VkNet.Enums.RelationType.Amorous:
+                        Relation = RelationType.Amorous;
+                        //RelationPartner = new User(user.RelationPartner);
+                        break;
+                    case VkNet.Enums.RelationType.CivilMarriage:
+                        Relation = RelationType.CivilMarriage;
+                        //RelationPartner = new User(user.RelationPartner);
+                        break;
+                    case VkNet.Enums.RelationType.Engaged:
+                        Relation = RelationType.Engaged;
+                        //RelationPartner = new User(user.RelationPartner);
+                        break;
+                    case VkNet.Enums.RelationType.HasFriend:
+                        Relation = RelationType.HasFriend;
+                        //RelationPartner = new User(user.RelationPartner);
+                        break;
+                    case VkNet.Enums.RelationType.InActiveSearch:
+                        Relation = RelationType.InActiveSearch;
+                        break;
+                    case VkNet.Enums.RelationType.ItsComplex:
+                        Relation = RelationType.ItsComplex;
+                        break;
+                    case VkNet.Enums.RelationType.Married:
+                        Relation = RelationType.Married;
+                        //RelationPartner = new User(user.RelationPartner);
+                        break;
+                }
+
+                long[] friends = new long[user.FriendLists.Count];
+                user.FriendLists.CopyTo(friends,0);
+                foreach (var friend in friends)
+                {
+                    Friends.Add(friend);
+                }
             }
         }
     }

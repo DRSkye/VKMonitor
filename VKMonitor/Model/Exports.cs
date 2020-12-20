@@ -12,6 +12,9 @@
 
         public Exports(VkNet.Model.Exports exports)
         {
+            if (exports == null)
+                return;
+
             Instagram = exports.Instagram;
             Facebook = exports.Facebook;
             Twitter = exports.Twitter;

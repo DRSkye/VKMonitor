@@ -18,6 +18,9 @@
 
         public Education(VkNet.Model.Education education)
         {
+            if (education == null)
+                return;
+
             UniversityId = education.UniversityId;
             UniversityName = education.UniversityName;
 

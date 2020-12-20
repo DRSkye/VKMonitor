@@ -8,6 +8,9 @@
 
         public Contacts(VkNet.Model.Contacts contacts)
         {
+            if (contacts == null)
+                return;
+
             MobilePhone = contacts.MobilePhone;
             HomePhone = contacts.HomePhone;
         }
