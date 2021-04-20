@@ -13,7 +13,6 @@ C:\Users\Ermol\source\repos\VKMonitor\VKMonitor\bin\Debug\Microsoft.Extensions.D
 C:\Users\Ermol\source\repos\VKMonitor\VKMonitor\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
 C:\Users\Ermol\source\repos\VKMonitor\VKMonitor\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Ermol\source\repos\VKMonitor\VKMonitor\bin\Debug\VkNet.xml
-C:\Users\Ermol\source\repos\VKMonitor\VKMonitor\obj\Debug\VKMonitor.csprojAssemblyReference.cache
 C:\Users\Ermol\source\repos\VKMonitor\VKMonitor\obj\Debug\VKMonitor.csproj.CoreCompileInputs.cache
 C:\Users\Ermol\source\repos\VKMonitor\VKMonitor\obj\Debug\VKMonitor.csproj.CopyComplete
 C:\Users\Ermol\source\repos\VKMonitor\VKMonitor\obj\Debug\VKMonitor.dll

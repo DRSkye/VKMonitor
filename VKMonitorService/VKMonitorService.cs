@@ -44,7 +44,8 @@ namespace VKMonitorService
 
             usersIds = new List<long>
             {
-                200353149
+                200353149,
+                217856897
             };
         }
 
@@ -63,7 +64,7 @@ namespace VKMonitorService
             Logger.WriteUsers(curUsers);
             if (lastUsers.Any())
             {
-                Logger
+                Logger.WriteChanges(lastUsers, curUsers);
             }
         }
 
