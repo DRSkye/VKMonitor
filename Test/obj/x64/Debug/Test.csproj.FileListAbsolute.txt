@@ -1,0 +1,2 @@
+C:\Users\Ermol\source\repos\VKMonitor\Test\obj\x64\Debug\Test.csprojAssemblyReference.cache
+C:\Users\Ermol\source\repos\VKMonitor\Test\obj\x64\Debug\Test.csproj.CoreCompileInputs.cache

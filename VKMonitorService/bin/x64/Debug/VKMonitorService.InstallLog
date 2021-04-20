@@ -1,0 +1,13 @@
+﻿Выполняется установка сборки 'C:\Users\Ermol\source\repos\VKMonitor\VKMonitorService\bin\x64\Debug\VKMonitorService.exe'.
+Затронуты следующие параметры:
+   logtoconsole = 
+   assemblypath = C:\Users\Ermol\source\repos\VKMonitor\VKMonitorService\bin\x64\Debug\VKMonitorService.exe
+   logfile = C:\Users\Ermol\source\repos\VKMonitor\VKMonitorService\bin\x64\Debug\VKMonitorService.InstallLog
+Устанавливается служба VKMonitorService...
+Служба VKMonitorService успешно установлена.
+Создается исходный EventLog VKMonitorService в журнале Application...
+Выполняется фиксация сборки 'C:\Users\Ermol\source\repos\VKMonitor\VKMonitorService\bin\x64\Debug\VKMonitorService.exe'.
+Затронуты следующие параметры:
+   logtoconsole = 
+   assemblypath = C:\Users\Ermol\source\repos\VKMonitor\VKMonitorService\bin\x64\Debug\VKMonitorService.exe
+   logfile = C:\Users\Ermol\source\repos\VKMonitor\VKMonitorService\bin\x64\Debug\VKMonitorService.InstallLog

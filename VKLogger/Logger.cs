@@ -8,6 +8,8 @@ namespace VKLogger
 {
     public static class Logger
     {
+        private static StreamWriter sw = new StreamWriter(@"C:\VKMonitorServiceLogs\Logs.log",true);
+
         public static void WriteUsers(List<User> users)
         {
             users.AsParallel().ForAll(WriteUser);
@@ -461,6 +463,21 @@ namespace VKLogger
                 //        writer.WriteLine($@"    Идентификатор: {user.Friends[i]}");
                 //    }
                 //}
+            }
+        }
+
+        public static void WriteLog(string msg)
+        {
+            sw.WriteLine($@"[{DateTime.Now}] Information: {msg}");
+        }
+
+        public static void WriteError(string msg, Exception e = null)
+        {
+            sw.WriteLine($@"[{DateTime.Now}] Error: msg");
+            if (e != null)
+            {
+                sw.WriteLine($@"[{DateTime.Now}] Message: {e.Message}");
+                sw.WriteLine($@"[{DateTime.Now}] StackTrace: {e.StackTrace}");
             }
         }
     }

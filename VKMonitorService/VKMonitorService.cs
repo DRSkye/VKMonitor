@@ -32,15 +32,25 @@ namespace VKMonitorService
             var res = VKLoader.Authorize();
 
             if (!res)
-                Stop();
-
-            timer = new Timer
             {
-                AutoReset = false,
-                Enabled = true,
-                Interval = TimeSpan.FromMinutes(5).Milliseconds
-            };
-            timer.Elapsed += onTimer;
+                Logger.WriteError("Авторизация вк не была произведена!");
+                return;
+            }
+
+            try
+            {
+                timer = new Timer
+                {
+                    AutoReset = false,
+                    Enabled = false,
+                    Interval = 1000
+                };
+                timer.Elapsed += OnTimer;
+            }
+            catch (Exception e)
+            {
+                Logger.WriteError("Ошибка создания таймера", e);
+            }
 
             usersIds = new List<long>
             {
@@ -49,10 +59,17 @@ namespace VKMonitorService
             };
         }
 
-        private static void onTimer(object source, ElapsedEventArgs e)
+        private static void OnTimer(object source, ElapsedEventArgs e)
         {
             var help = curUsers;
-            curUsers = VKLoader.GetUsers(usersIds);
+            try
+            {
+                curUsers = VKLoader.GetUsers(usersIds);
+            }
+            catch (Exception exception)
+            {
+                Logger.WriteError("Ошибка получения пользователей", exception);
+            }
 
             if (curUsers == null || !curUsers.Any())
             {
@@ -70,23 +87,52 @@ namespace VKMonitorService
 
         protected override void OnStart(string[] args)
         {
-            timer.Start();
+            try
+            {
+                timer.Start();
+            }
+            catch (Exception e)
+            {
+                Logger.WriteError("Ошибка запуска таймера!", e);
+            }
+            
         }
 
         protected override void OnStop()
         {
-            timer.Stop();
-            timer.Dispose();
+            try
+            {
+                timer.Stop();
+                timer.Dispose();
+            }
+            catch (Exception e)
+            {
+                Logger.WriteError("Ошибка остановки таймера!", e);
+            }
         }
 
         protected override void OnPause()
         {
-            timer.Stop();
+            try
+            {
+                timer.Stop();
+            }
+            catch (Exception e)
+            {
+                Logger.WriteError("Ошибка приостановки таймера!", e);
+            }
         }
 
         protected override void OnContinue()
         {
-            timer.Start();
+            try
+            {
+                timer.Start();
+            }
+            catch (Exception e)
+            {
+                Logger.WriteError("Ошибка возобновления таймера!", e);
+            }
         }
     }
 }

@@ -29,7 +29,6 @@ namespace VKMonitor.Loaders
                     {
                         return false;
                     }
-                    
                 }
 
                 _api = new VkApi();
@@ -39,8 +38,9 @@ namespace VKMonitor.Loaders
                 });
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return false;
             }
         }
