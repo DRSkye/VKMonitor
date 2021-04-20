@@ -12,12 +12,18 @@ namespace VKMonitorService
         public VKMonitorServiceInstaller()
         {
             InitializeComponent();
-            serviceInstaller = new ServiceInstaller();
-            processInstaller = new ServiceProcessInstaller();
+            serviceInstaller = new ServiceInstaller
+            {
+                StartType = ServiceStartMode.Manual,
+                ServiceName = "VKMonitorService"
+            };
 
-            processInstaller.Account = ServiceAccount.LocalSystem;
-            serviceInstaller.StartType = ServiceStartMode.Manual;
-            serviceInstaller.ServiceName = "VKMonitorService";
+            processInstaller = new ServiceProcessInstaller
+            {
+                Account = ServiceAccount.LocalSystem
+            };
+
+
             Installers.Add(processInstaller);
             Installers.Add(serviceInstaller);
         }

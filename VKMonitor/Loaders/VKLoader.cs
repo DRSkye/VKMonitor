@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VkNet;
@@ -54,7 +55,16 @@ namespace VKMonitor.Loaders
 
         public static List<User> GetUsers(List<long> list)
         {
-            var users = list.AsParallel().Select(GetUser).ToList();
+            List<User> users = new List<User>();
+            try
+            {
+                users = list.AsParallel().Select(GetUser).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
             return users;
         }

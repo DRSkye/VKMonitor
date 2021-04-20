@@ -106,11 +106,11 @@ namespace VKMonitor.Model
                 switch (BirthDateVisibility)
                 {
                     case BirthDateVisibility.Invisible:
-                        return $@"День рождения: скрыт";
+                        return $@"Скрыт";
                     case BirthDateVisibility.DateAndMonth:
-                        return $@"День рождения: {BirthDate.Day}.{BirthDate.Month}";
+                        return $@"{BirthDate.Day}.{BirthDate.Month}";
                     case BirthDateVisibility.Full:
-                        return $@"День рождения: {BirthDate.ToShortDateString()}";
+                        return $@"{BirthDate.ToShortDateString()}";
                 }
 
                 return string.Empty;

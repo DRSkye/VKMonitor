@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceProcess;
 using System.Timers;
 using VKLogger;
 using VKMonitor.Loaders;
+using VKMonitor.Model;
 
 namespace VKMonitorService
 {
@@ -12,6 +14,9 @@ namespace VKMonitorService
         private Timer timer;
 
         private static List<long> usersIds = new List<long>();
+
+        private static List<User> lastUsers = new List<User>();
+        private static List<User> curUsers = new List<User>();
 
         public VKMonitorService()
         {
@@ -45,9 +50,21 @@ namespace VKMonitorService
 
         private static void onTimer(object source, ElapsedEventArgs e)
         {
-            var users = VKLoader.GetUsers(usersIds);
+            var help = curUsers;
+            curUsers = VKLoader.GetUsers(usersIds);
 
-            Logger.WriteUsers(users);
+            if (curUsers == null || !curUsers.Any())
+            {
+                return;
+            }
+
+            lastUsers = help;
+
+            Logger.WriteUsers(curUsers);
+            if (lastUsers.Any())
+            {
+                Logger
+            }
         }
 
         protected override void OnStart(string[] args)
